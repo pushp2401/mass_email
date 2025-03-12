@@ -42,23 +42,31 @@ if uploaded_file is not None :
                 if file_type == "text/csv" :
                     df = pd.read_csv(uploaded_file)
                     for one_mail in df['mail'] :
-                        name = extract_name(one_mail)
-                        full_mail_content = "Hello " + name + ",\n" + body_input + "\n" + "---------------" +  "\n\n"
-                        if signature_input is not None : 
-                            signature_bold = f"""
-                            <html>
-                                <body style="font-family: Arial, sans-serif;">
-                                    <p><strong style="color: black;">{signature_input}</strong></p>
-                                </body>
-                            </html>
-                            """
-                        full_mail_content = full_mail_content + signature_bold
-                        if uploaded_pictures is not None : 
-                            yag.send(to = one_mail , subject = subject_input , contents = full_mail_content , attachments = uploaded_pictures)
-                            show_success_message(one_mail) 
-                        else :
-                            yag.send(to = one_mail , subject = subject_input , contents = full_mail_content) 
-                            show_success_message(one_mail) 
+                        try : 
+                            name = extract_name(one_mail)
+                            full_mail_content = "Hello " + name + ",\n" + body_input + "\n" + "---------------" +  "\n\n"
+                            if signature_input is not None : 
+                                signature_bold = f"""
+                                <html>
+                                    <body style="font-family: Arial, sans-serif;">
+                                        <p><strong style="color: black;">{signature_input}</strong></p>
+                                    </body>
+                                </html>
+                                """
+                            full_mail_content = full_mail_content + signature_bold
+                            if uploaded_pictures is not None : 
+                                yag.send(to = one_mail , subject = subject_input , contents = full_mail_content , attachments = uploaded_pictures)
+                                show_success_message(one_mail) 
+                            else :
+                                yag.send(to = one_mail , subject = subject_input , contents = full_mail_content) 
+                                show_success_message(one_mail) 
+                        except :
+                            success_placeholder = st.empty()  # Create a placeholder
+                            success_placeholder.success(f"❌ Failed to send mail to {one_mail}!")  # Show success message
+                            time.sleep(3)  # Wait for 3 seconds
+                            success_placeholder.empty() 
+                            pass
+                    st.success("✅ All email sent successfully!")
 
         else :
             st.write("Please provide mail subject and body")
