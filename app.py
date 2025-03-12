@@ -33,8 +33,8 @@ uploaded_file = st.file_uploader( "Upload you client list as csv here" ,type=["c
 if uploaded_file is not None : 
     subject_input = st.text_area("Enter mail subject:" , placeholder = "Followup regarding data science budget")
     body_input = st.text_area("Enter mail body:" , placeholder = "This mail is regarding...\nBest regards,\n Barbara Daniels")
-    uploaded_pictures = st.file_uploader("Optional : Upload Images to attach : ", type=["png", "jpg", "jpeg"] , accept_multiple_files = True)
-    signature_input = st.text_area("Enter email signature : " , placeholder = "\n Barbara daniels\n VP, XYZ Ltd\n +91-1234567890\nAtlanta, USA ")
+    uploaded_pictures = st.file_uploader("Optional : Upload any File to attach - ", type = None , accept_multiple_files = True)
+    signature_input = st.text_area("Enter email signature : " , placeholder = "Barbara daniels\n VP, XYZ Ltd\n +91-1234567890\nAtlanta, USA ")
     if st.button("Send mail") :
         if subject_input and body_input:
             if uploaded_file :
